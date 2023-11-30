@@ -1,15 +1,10 @@
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <NuxtPage />
 </template>
 
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-  }
-  body {
-    background-color: white;
-  }
+body, html {
+  padding: 0;
+  margin: 0;
+}
 </style>

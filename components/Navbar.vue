@@ -6,7 +6,7 @@
      <NuxtLink to="/impressum" class="impressum">Impressum</Nuxtlink>
    </div>
    <div class="right">
-     <a class="login" href="">Mein Konto</a>
+     <NuxtLink to="/login" class="login">Mein Konto</NuxtLink>
    </div>
   </nav>
 </template>
@@ -33,16 +33,16 @@
 
   .left a {
     margin-inline: 1.5rem;
-    background-image: linear-gradient(rgb(204, 50, 191),rgb(204, 50, 191));
+    background-image: linear-gradient(rgb(211, 100, 202), rgb(211, 100, 202));
     background-size: 0% 2px;
     background-position: 0% 100%;
     background-repeat: no-repeat;
     transition: background-size 0.17s, color 0.17s;
-    color: rgb(0,0,0);
+    font-weight: 600;
     padding: 3px;
   }
   .left a:hover {
-    color: rgb(179, 22, 158);
+    color: rgb(211, 100, 202);
     background-size: 100% 2px;
   }
 
