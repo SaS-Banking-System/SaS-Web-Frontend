@@ -3,7 +3,7 @@
         <div class="loginbox">
             <h1>Anmelden</h1><br>
             <form type="text" class="qrscanner">
-                <input type="text">
+                <input type="text" placeholder="Scan QR code...">
             </form>
         </div>
     </div>
@@ -18,13 +18,30 @@
     border-radius: 10px;
     background-color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     font-size: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     filter: drop-shadow(0px 0px 7px rgb(201, 201, 201));
 }
+h1 {
+    margin-bottom: 2vw;
+}
+.qrscanner > input {
+    width: 22vw;
+    height: 6vh;
+    border: 1px solid rgb(180, 180, 180);
+    border-radius: 5px;
+    padding-inline-start: 10px;
+    margin-bottom: 18vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    outline: none;
+}
 
-.qrscanner {
-    margin-block: auto;
+.qrscanner > input:focus {
+    outline: 2px solid rgba(125, 169, 252, 0.747);
+    filter: drop-shadow(0px 0px 3px rgb(125, 169, 252, 0.747));
 }
 </style>
