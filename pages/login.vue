@@ -1,6 +1,9 @@
 <template>
     <div class="wrapper">
-        <NuxtLink to="/">Logo</NuxtLink>
+        <div class="logo-wrapper">
+            <NuxtLink to="/">Logo</NuxtLink>
+        </div>
+        
         <Login class="login"></Login>
     </div>
 </template>
@@ -11,7 +14,11 @@ a {
     cursor: pointer;
     font-size: 1.8rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 2vw;
+}
+
+.logo-wrapper {
+    margin-left: 2rem;
+    margin-top: 1rem;
 }
 
 </style>

@@ -16,12 +16,13 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    background-color: white;
     height: 8vh;
   }
   .left, .right {
     display: flex;
     align-items: center;
-    margin-inline: 16rem;
+    margin-inline: 8rem;
   }
 
   a {
