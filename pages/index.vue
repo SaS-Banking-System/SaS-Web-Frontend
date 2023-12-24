@@ -31,10 +31,12 @@
 
 h1 {
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding-top: 12%;
-    margin-right: 53%;
+
+    margin-top: 35vh;
+
+    /* 9.5 rem because there are 8 rem margin on the navbar and 1.5 rem margin on the first a (Logo link) */
+    margin-left: 9.5rem;
 
     animation: 1s ease 0s 1 slideInFromLeft;
 

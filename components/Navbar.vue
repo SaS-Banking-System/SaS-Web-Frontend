@@ -18,11 +18,11 @@
     justify-content: space-between;
     background-color: white;
     height: 8vh;
+    margin-inline: 8rem;
   }
   .left, .right {
     display: flex;
     align-items: center;
-    margin-inline: 8rem;
   }
 
   a {
