@@ -5,7 +5,9 @@
             <form type="text" class="qrscanner">
                 <input type="text" placeholder="Scan QR code...">
             </form>
-            <NuxtLink class="skip" to="/personalDashboard">Login</NuxtLink>
+            <button class="loginButton">
+                <NuxtLink to="/personalDashboard">Login</NuxtLink>
+            </button>
         </div>
     </div>
 </template>
@@ -46,19 +48,18 @@ h1 {
     filter: drop-shadow(0px 0px 3px rgb(125, 169, 252, 0.747));
 }
 
-.skip {
+.loginButton {
     all: unset;
-    color: white;
-    background-color: rgb(47, 116, 219);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5rem;
-    font-weight: 500;
-    padding-top: 1vh;
-    padding-bottom: 1.2vh;
-    padding-left: 10vw;
-    padding-right: 10vw;
-    margin-bottom: 27vh;
+    font-size: 1.2rem;
+    background-color: rgb(47, 116, 219);
+    color: white;
+    width: 100%;
     border-radius: 5px;
+}
+
+.loginButton > a {
+    all: unset;
 }
 
 </style>
