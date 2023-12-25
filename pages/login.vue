@@ -4,7 +4,7 @@
             <NuxtLink to="/">Logo</NuxtLink>
         </div>
         
-        <Login class="login"></Login>
+        <LoginBox class="login"></LoginBox>
     </div>
 </template>
 

@@ -2,8 +2,12 @@
     <div class="wrapper">
         <Navbar />
         <h1>Personal dashboard</h1>
-        <h2>Your balance is €</h2>
-        <TransactionList />
+        <div class="pageContent">
+            <h2>Your balance is €</h2>
+            <div class="transactionList">
+                <TransactionList />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -14,17 +18,26 @@
     background-color: white;
 }
 
+.pageContent {
+    margin-left: 26rem;
+    display: flex;
+    justify-content: center;
+}
+
 h1 {
-    margin-left: 7.8vw;
+    margin-left: 9.4rem;
     font-size: 3rem;
     font-weight: 400;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h2 {
-    margin-left: 7.8vw;
     font-size: 2rem;
     font-weight: 400;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.transactionList {
+    
 }
 </style>

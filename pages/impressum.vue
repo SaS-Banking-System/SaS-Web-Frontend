@@ -1,7 +1,8 @@
 <template>
     <div class="wrapper">
         <Navbar />
-       <Impressum />
+        <h1>Impressum</h1>
+        <p>Test</p>
     </div>
 </template>
 

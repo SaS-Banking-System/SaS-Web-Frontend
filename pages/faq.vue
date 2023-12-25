@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <Navbar />
-        <FAQ />
+        <h1>FAQ</h1>
     </div>
 </template>
 
