@@ -16,7 +16,7 @@
 
 <style scoped>
 .loginbox {
-    width: 28vw;
+    width: 37%;
     height: 60vh;
     margin: auto;
     margin-top: 20vh;
@@ -28,6 +28,14 @@
     align-items: center;
     filter: drop-shadow(0px 0px 7px rgb(201, 201, 201));
 }
+
+@media only screen and (max-width: 1444px) 
+{
+    .loginbox {
+        width: 100%;
+    }
+}
+
 .mar { 
     margin-inline: 12vw;
 }
