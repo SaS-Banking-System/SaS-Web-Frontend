@@ -1,14 +1,17 @@
+<script setup>
+const props = defineProps(['transactions', 'uuid'])
+
+console.log(props.uuid)
+</script>
+
 <template>
     <div class="wrapper">
         <h1>Transactions</h1>
         <ol class="transactions">
-            <li>You received 200€ from blabla</li>
-            <li>You received 200€ from blabla</li>
-            <li>You received 200€ from blabla</li>
-            <li>You received 200€ from blabla</li>
-            <li>You received 200€ from blabla</li>
-            <li>You received 200€ from blabla</li>
-            <li>You received 200€ from blabla</li>
+            <li v-for="transaction in props.transactions">
+                <p v-if="String(props.uuid) === transaction.sender">sadder</p>
+                <p v-else>Du bist receiver</p>
+            </li>
         </ol>
     </div>
 </template>
@@ -30,6 +33,7 @@
 }
 
 h1 {
+    color: white;
     margin-left: 7.8vw;
     font-size: 2rem;
     font-weight: 400;

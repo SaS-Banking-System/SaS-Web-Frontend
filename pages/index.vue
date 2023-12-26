@@ -9,13 +9,9 @@
 
 <style scoped>
 .wrapper {
-    width: 100vw;
-    height: 130vh;
-    background-color: white;
-}
-
-.hero {
-    height: 92vh;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(10,10,10);
 }
 
 @keyframes slideInFromLeft {
@@ -35,13 +31,14 @@ h1 {
 
     margin-top: 35vh;
 
-    /* 9.5 rem because there are 8 rem margin on the navbar and 1.5 rem margin on the first a (Logo link) */
-    margin-left: 9.5rem;
+    margin-left: 17.5rem;
 
     animation: 1s ease 0s 1 slideInFromLeft;
 
     font-size: 4.5rem;
-    font-weight: 300;
+    font-weight: 600;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+    color: white;
+} 
+
 </style>

@@ -1,14 +1,26 @@
+<script setup>
+function onDetect(detectedCodes)
+{
+    result.value = JSON.stringify(
+      detectedCodes.map(code => code.rawValue)
+    )
+}
+</script>
+
 <template>
     <div class="login">
         <div class="mar">
         <div class="loginbox">
             <h1>Login</h1><br>
             <form type="text" class="form">
-                <input type="text" placeholder="Scan QR code...">
+                <input id="formInput" type="text" placeholder="Scan dein QR-Code..." readonly>
+                <qrcode-stream class="qrCodeScanner" @detect="onDetect">
+                <p>Scan dein QR-Code</p>
+                </qrcode-stream>
             </form>
-            <button class="loginButton">
-                <NuxtLink to="/personalDashboard">Anmelden</NuxtLink>
-            </button>
+            <a class="dashboardLink" href="/personalDashboard">
+                <button class="loginButton">Anmelden</button>
+            </a>
             </div>
         </div>
     </div>
@@ -47,6 +59,8 @@ h1 {
 .form {
     width: 80%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
 .form > input {
@@ -65,6 +79,10 @@ h1 {
     filter: drop-shadow(0px 0px 3px rgb(125, 169, 252, 0.747));
 }
 
+.form > input:focus ~ .qrCodeScanner {
+    display: block;
+}
+
 .loginButton {
     all: unset;
     width: 80%;
@@ -75,19 +93,27 @@ h1 {
     margin-bottom: 22vh;
     padding-top: 12px;
     padding-bottom: 12px;
-    display: flex;
-    justify-content: center;
 }
 
-.loginButton > a {
+.dashboardLink {
     all: unset;
+    width: 100%;
     font-weight: 500;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 .loginButton:hover {
     background-color: rgb(41, 86, 153);
     cursor: pointer;
+}
+
+.qrCodeScanner {
+    display: none;
+    margin-top: -3vh;
+    margin-bottom: 3vh;
 }
 </style>

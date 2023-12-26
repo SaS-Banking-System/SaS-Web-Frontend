@@ -3,7 +3,6 @@
         <div class="logo-wrapper">
             <NuxtLink to="/">Logo</NuxtLink>
         </div>
-        
         <LoginBox class="login"></LoginBox>
     </div>
 </template>

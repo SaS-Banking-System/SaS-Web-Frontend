@@ -7,8 +7,8 @@
 
 <style scoped>
 .wrapper {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
-    background-color: white;
+    background-color: rgb(10,10,10);
 }
 </style>
