@@ -11,4 +11,8 @@
     height: 100vh;
     background-color: rgb(10,10,10);
 }
+
+h1 {
+    color: white;
+}
 </style>

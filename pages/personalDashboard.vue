@@ -9,11 +9,13 @@ const request = await useFetch(`http://212.227.150.82:3000/account/info/${uuid}`
 <template>
     <div class="wrapper">
         <Navbar />
-        <h1>Personal dashboard</h1>
-        <div class="pageContent">
-            <h2>Your balance is {{ request.data.value.account.balance }}€</h2>
-            <div class="transactionList">
-                <TransactionList :transactions="request.data.value.transactions" :uuid="uuid"/>
+        <div class="header">
+            <h1>Personal dashboard</h1>
+            <div class="pageContent">
+                <h2>Your balance is {{ request.data.value.account.balance }}€</h2>
+                <div class="transactionList">
+                    <TransactionList :transactions="request.data.value.transactions" :uuid="uuid"/>
+                </div>
             </div>
         </div>
     </div>
@@ -21,18 +23,22 @@ const request = await useFetch(`http://212.227.150.82:3000/account/info/${uuid}`
 
 <style scoped>
 .wrapper {
-    width: 100vw;
-    height: 100vh;
     background-color: rgb(10,10,10);
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
 }
 
 .transactionList {
     width: 100%;
+    margin-left: 7.9vw;
 }
 
 .pageContent {
-    width: 100vw;
-    margin-left: 26rem;
+    height: 93vh;
+    margin-left: 6.5rem;
     display: flex;
 }
 
@@ -45,7 +51,6 @@ h1 {
 }
 
 h2 {
-    flex-grow: 1;
     padding-inline: 3rem;
     color: white;
     font-size: 2rem;

@@ -20,7 +20,7 @@
     border-bottom: 1px solid rgb(80, 80, 80);
     background-color: rgb(10,10,10);
     height: 7vh;
-    padding-top: 0.75%;
+    padding-top: 1.5vh;
   }
 
   .mar {
@@ -45,7 +45,7 @@
 
   .left a {
     margin-inline: 1.5rem;
-    background-image: linear-gradient(rgb(211, 100, 202), rgb(211, 100, 202));
+    background-image: linear-gradient(rgb(240, 124, 230), rgb(240, 124, 230));
     background-size: 0% 2px;
     background-position: 0% 100%;
     background-repeat: no-repeat;

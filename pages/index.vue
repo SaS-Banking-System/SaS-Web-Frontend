@@ -1,8 +1,13 @@
 <template>
     <div class="wrapper">
         <Navbar />
-        <div class="hero">
+        <div class="pageContent">
             <h1>Die Bank der Bänke.</h1>
+            <div class="subheader">
+                <p>Schnell,</p>
+                <p>effizient</p>
+                <p>und einfach.</p>
+            </div>
         </div>
     </div>
 </template>
@@ -16,7 +21,6 @@
 
 @keyframes slideInFromLeft {
     0% {
-        opacity: 0%;
         transform: translateX(-60%);
     }
     100% {
@@ -25,20 +29,54 @@
     }
 }
 
-h1 {
+.pageContent {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+}
 
-    margin-top: 35vh;
+.subheader {
+    display: flex;
+    flex-direction: column;
+    
+}
 
+h1 {
+    margin-top: 25vh;
+    margin-bottom: -5vh;
     margin-left: 17.5rem;
 
     animation: 1s ease 0s 1 slideInFromLeft;
+    animation-fill-mode: forwards;
+    opacity: 0%;
 
     font-size: 4.5rem;
     font-weight: 600;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
 } 
+
+p {
+    margin-left: 17.5rem;
+    margin-bottom: -3rem;
+
+    animation: 0.9s ease 0.1s 1 slideInFromLeft;
+    animation-fill-mode: forwards;
+    opacity: 0%;
+
+    font-size: 3rem;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+} 
+
+p:nth-child(2) {
+    animation-delay: 0.2s;
+    animation-duration: 0.8s;
+}
+
+p:nth-child(3) {
+    animation-delay: 0.3s;
+    animation-duration: 0.7s;
+}
 
 </style>
