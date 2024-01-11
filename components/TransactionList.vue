@@ -8,7 +8,7 @@ const props = defineProps(['transactions', 'uuid'])
         <ol class="transactions">
             <li v-for="transaction in props.transactions">
                 <p v-if="String(props.uuid) === transaction.sender">You sent {{ transaction.amount }}€ with a {{ transaction.tax }}% tax on {{ transaction.createdAt }}</p>
-                <p v-else>You received {{ transaction.amount }}€ with a {{ transaction.tax }}% tax on {{ Date(transaction.createdAt) }}</p>
+                <p v-else>You received {{ transaction.amount }}€ with a {{ transaction.tax }}% tax on {{ transaction.createdAt }}</p>
             </li>
         </ol>
     </div>

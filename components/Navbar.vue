@@ -17,8 +17,8 @@
 
 <style scoped>
   nav {
-    border-bottom: 1px solid rgb(80, 80, 80);
-    background-color: rgb(10,10,10);
+    border-bottom: 1px solid rgb(240, 240, 240);
+    background-color: white;
     height: 7vh;
     padding-top: 1.5vh;
   }
@@ -38,7 +38,7 @@
   a {
     all: unset;
     cursor: pointer;
-    color: white;
+    color: black;
     font-size: 1.2rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }

@@ -2,26 +2,40 @@
     <div class="wrapper">
         <Navbar />
         <div class="pageContent">
-            <h1>Die Bank der Bänke.</h1>
-            <div class="subheader">
-                <p>Schnell,</p>
-                <p>effizient</p>
-                <p>und einfach.</p>
+            <div class="header">
+                <div class="subheader">
+                    <h1>Die Bank der Bänke.</h1>
+                    <p>Schnell,</p>
+                    <p>effizient</p>
+                    <p>und einfach.</p>
+                </div>
+                <img class="kreditkarte" src="kreditkarte.png" alt="Credit Card">
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
+.header {
+    display: flex;
+    flex-direction: row;
+}
 .wrapper {
     width: 100%;
     height: 100vh;
-    background-color: rgb(10,10,10);
+    background-image: url('/gradientbackground.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.kreditkarte {
+    margin-top: -7vh;
+    scale: 0.7;
 }
 
 @keyframes slideInFromLeft {
     0% {
-        transform: translateX(-60%);
+        transform: translateX(-100%);
     }
     100% {
         opacity: 100%;
@@ -37,11 +51,10 @@
 .subheader {
     display: flex;
     flex-direction: column;
-    
 }
 
 h1 {
-    margin-top: 25vh;
+    margin-top: 21vh;
     margin-bottom: -5vh;
     margin-left: 17.5rem;
 
@@ -52,7 +65,7 @@ h1 {
     font-size: 4.5rem;
     font-weight: 600;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
+    color: black;
 } 
 
 p {
@@ -66,15 +79,15 @@ p {
     font-size: 3rem;
     font-weight: 400;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
+    color: black;
 } 
 
-p:nth-child(2) {
+p:nth-child(3) {
     animation-delay: 0.2s;
     animation-duration: 0.8s;
 }
 
-p:nth-child(3) {
+p:nth-child(4) {
     animation-delay: 0.3s;
     animation-duration: 0.7s;
 }
