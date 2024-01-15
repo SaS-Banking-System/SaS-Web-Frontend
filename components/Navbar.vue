@@ -17,7 +17,7 @@
 
 <style scoped>
   nav {
-    border-bottom: 1px solid rgb(240, 240, 240);
+    border-bottom: 2px solid rgb(194, 194, 194);
     background-color: white;
     height: 7vh;
     padding-top: 1.5vh;

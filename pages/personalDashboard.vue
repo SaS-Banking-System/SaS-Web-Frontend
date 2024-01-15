@@ -1,20 +1,22 @@
 <script setup>
-const uuid = 1234
-const request = await useFetch(`http://212.227.150.82:3000/account/info/${uuid}`, {
-    mode:
-        "no-cors"
-})
+
 </script>
 
 <template>
     <div class="wrapper">
         <Navbar />
         <div class="header">
-            <h1>Personal dashboard</h1>
+            <h1>Persönliches Dashboard</h1>
             <div class="pageContent">
-                <h2>Your balance is {{ request.data.value.account.balance }}€</h2>
+                <div class="balanceWrapper">
+                    <h2>Dein Guthaben beträgt: </h2>
+                    <p class="balance">320<img src="/dollar.svg" /></p>
+                </div>
                 <div class="transactionList">
-                    <TransactionList :transactions="request.data.value.transactions" :uuid="uuid"/>
+                    <TransactionList />
+                </div>
+                <div>
+                    <p class="buttontransaction">Neue Transaktion</p>
                 </div>
             </div>
         </div>
@@ -22,18 +24,58 @@ const request = await useFetch(`http://212.227.150.82:3000/account/info/${uuid}`
 </template>
 
 <style scoped>
-.wrapper {
-    background-color: rgb(10,10,10);
+.balanceWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+img {
+    margin-left: 0.5rem;
+    width: 2rem;
+    color: black;
+}
+
+.balance {
+    margin-left: 2.5vw;
+    margin-top: -2vh;
+    border-bottom: 4px dashed black;
+    background-color: rgb(255, 255, 253);
+    font-size: 3.5rem;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .header {
     display: flex;
     flex-direction: column;
+    background-color: white;
+    background-image: url("/dashboardbg2.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .transactionList {
     width: 100%;
-    margin-left: 7.9vw;
+    margin-top: 0.6vh;
+    margin-left: 2vw;
+}
+
+.buttontransaction {
+    margin-top: 12.2vh;
+    margin-right: 47vw;
+    white-space: nowrap;
+
+    padding: 12px;
+    border-radius: 12px;
+
+    color: white;
+    background-color: rgb(68, 216, 142);
+    filter: drop-shadow(0px 0px 4px rgba(126, 126, 126, 0.8));
+
+    font-weight: 500;
+    font-size: 1.2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .pageContent {
@@ -43,16 +85,21 @@ const request = await useFetch(`http://212.227.150.82:3000/account/info/${uuid}`
 }
 
 h1 {
-    color: white;
+    color: black;
     margin-left: 9.4rem;
     font-size: 3rem;
+    text-decoration: underline;
     font-weight: 400;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h2 {
-    padding-inline: 3rem;
-    color: white;
+    margin-left: 3vw;
+    padding: 4px;
+    color: black;
+    border-radius: 10px;
+    background-color: var(--dashboardHeaderColours);
+    white-space: nowrap;
     font-size: 2rem;
     font-weight: 400;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
