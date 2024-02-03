@@ -16,7 +16,7 @@
                     <TransactionList />
                 </div>
                 <div>
-                    <p class="buttontransaction">Neue Transaktion</p>
+                    <button class="buttontransaction">Neue Transaktion</button>
                 </div>
             </div>
         </div>
@@ -76,6 +76,10 @@ img {
     font-weight: 500;
     font-size: 1.2rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.buttontransaction:hover {
+    cursor: pointer;
 }
 
 .pageContent {
