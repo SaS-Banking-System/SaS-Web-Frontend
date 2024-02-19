@@ -1,10 +1,33 @@
 <script setup>
+const scannedUUID = "test1"
+let wrongUUID = ref(false);
+
 function onDetect(detectedCodes)
 {
     result.value = JSON.stringify(
       detectedCodes.map(code => code.rawValue)
     )
 }
+
+async function login() {
+    const uuidCookie = useCookie('uuid')
+    uuidCookie.value = scannedUUID
+
+    // lock login button
+
+    const userRequest = await useFetch(`http://localhost:3001/account/exist/${uuidCookie.value}`)
+
+    if (!userRequest || userRequest.status.value === 'error') { 
+        wrongUUID.value = true;
+        return
+    }
+
+    // unlock login button
+
+    navigateTo('/personalDashboard')
+}
+
+
 </script>
 
 <template>
@@ -18,9 +41,12 @@ function onDetect(detectedCodes)
                 <p>Scan dein QR-Code</p>
                 </qrcode-stream>
             </form>
-            <a class="dashboardLink" href="/personalDashboard">
-                <button class="loginButton">Anmelden</button>
-            </a>
+            <p v-if="wrongUUID" class="wrong-uuid">
+                UUID nicht gefunden
+            </p>
+            <button @click="login" class="dashboardLink">
+                <p class="loginButton">Anmelden</p>
+            </button>
             </div>
         </div>
     </div>
@@ -115,5 +141,10 @@ h1 {
     display: none;
     margin-top: -3vh;
     margin-bottom: 3vh;
+}
+.wrong-uuid {
+    color: red;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.7rem;
 }
 </style>

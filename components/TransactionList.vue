@@ -1,18 +1,18 @@
 <script setup>
-
+  const props = defineProps(['transactions', 'uuid'])
 </script>
 
 <template>
     <div class="wrapper">
         <h1>Transaktionen</h1>
         <ol class="transactions">
-            <li>
-                <p>10<img src="dollar.svg"> bekommen am 03.01.2024</p>
-                <p>20<img src="dollar.svg"> gesendet am 02.01.2024</p>
-                <p>140<img src="dollar.svg"> bekommen am 02.01.2024</p>
-                <p>140<img src="dollar.svg"> bekommen am 01.01.2024</p>
-                <p>50<img src="dollar.svg"> gesendet am 01.01.2024</p>
-                <p>100<img src="dollar.svg"> bekommen am 01.01.2024</p>
+            <li v-for="transaction in props.transactions">
+                <p v-if="transaction.sender === props.uuid" class="transaction-send">
+                    {{ transaction.amount }} <img src="dollar.svg" /> gesendet am {{ transaction.createdAt }}
+                </p>
+                <p v-else class="transaction-received">
+                    {{ transaction.amount }} <img src="dollar.svg" /> bekommen am {{ transaction.createdAt }}
+                </p>
             </li>
         </ol>
     </div>
@@ -56,5 +56,16 @@ h1 {
     font-size: 2rem;
     font-weight: 400;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.transaction-send {
+    background-color: rgba(255, 0, 0, 0.286);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.transaction-received {
+    background-color: rgba(113, 246, 80, 0.447);
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 </style>

@@ -1,4 +1,14 @@
 <script setup>
+  const uuidCookie = useCookie('uuid')
+
+  if (!uuidCookie.value) await navigateTo('/login')
+
+  const uuid = uuidCookie.value
+  const userRequest = await useFetch(`http://localhost:3001/account/info/${uuid}`)
+
+  if (!userRequest || userRequest.status.value === 'error') navigateTo('/login')
+
+  const user = userRequest.data.value
 
 </script>
 
@@ -10,10 +20,10 @@
             <div class="pageContent">
                 <div class="balanceWrapper">
                     <h2>Dein Guthaben beträgt: </h2>
-                    <p class="balance">320<img src="/dollar.svg" /></p>
+                    <p class="balance">{{ user.account.balance }}<img src="/dollar.svg" /></p>
                 </div>
                 <div class="transactionList">
-                    <TransactionList />
+                    <TransactionList :transactions="user.transactions" :uuid="uuid" />
                 </div>
                 <div>
                     <button class="buttontransaction">Neue Transaktion</button>
