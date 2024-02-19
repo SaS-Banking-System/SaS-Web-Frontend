@@ -9,7 +9,6 @@
   if (!userRequest || userRequest.status.value === 'error') navigateTo('/login')
 
   const user = userRequest.data.value
-
 </script>
 
 <template>

@@ -4,5 +4,5 @@ export default defineNuxtConfig({
   pages: true,
   routeRules: {
     '/personalDashboard': { ssr: true }
-  }
+  },
 })

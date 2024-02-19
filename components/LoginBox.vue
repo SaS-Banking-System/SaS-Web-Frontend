@@ -1,19 +1,26 @@
 <script setup>
-const scannedUUID = "test1"
-let wrongUUID = ref(false);
+import { QrcodeStream } from 'vue-qrcode-reader'
 
-function onDetect(detectedCodes)
-{
-    result.value = JSON.stringify(
-      detectedCodes.map(code => code.rawValue)
-    )
+const scannedUUID = ref('')
+let wrongUUID = ref(false);
+let scanFinished = ref(false);
+let loginRequest = ref(false)
+
+function rescan() {
+    location.reload()
+}
+
+function onDetect(detected) {
+    scannedUUID.value = detected[0].rawValue
+
+    scanFinished.value = true;
 }
 
 async function login() {
     const uuidCookie = useCookie('uuid')
-    uuidCookie.value = scannedUUID
+    uuidCookie.value = scannedUUID.value
 
-    // lock login button
+    loginRequest.value = true;
 
     const userRequest = await useFetch(`http://localhost:3001/account/exist/${uuidCookie.value}`)
 
@@ -22,7 +29,7 @@ async function login() {
         return
     }
 
-    // unlock login button
+    loginRequest.value = false;
 
     navigateTo('/personalDashboard')
 }
@@ -36,17 +43,24 @@ async function login() {
         <div class="loginbox">
             <h1>Login</h1><br>
             <form type="text" class="form">
-                <input id="formInput" type="text" placeholder="Scan dein QR-Code..." readonly>
-                <qrcode-stream class="qrCodeScanner" @detect="onDetect">
-                <p>Scan dein QR-Code</p>
-                </qrcode-stream>
+                <input :value="scannedUUID" id="formInput" type="text" placeholder="Scan dein QR-Code..." readonly>
             </form>
+
+            <div v-if="!scanFinished">
+                <qrcode-stream @detect="onDetect"></qrcode-stream>
+            </div>
+
             <p v-if="wrongUUID" class="wrong-uuid">
                 UUID nicht gefunden
             </p>
-            <button @click="login" class="dashboardLink">
+
+            <button :disabled="loginRequest" @click="login" class="dashboardLink">
                 <p class="loginButton">Anmelden</p>
             </button>
+
+            <div v-if="scanFinished">
+                <button @click="rescan" class="loginButton">Nochmal Scannen</button>
+            </div>
             </div>
         </div>
     </div>

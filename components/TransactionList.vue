@@ -1,13 +1,16 @@
-<script setup>
+<script setup lang="ts">
   const props = defineProps(['transactions', 'uuid'])
+
+  console.log(props.transactions)
+  console.log(props.uuid)
 </script>
 
 <template>
     <div class="wrapper">
         <h1>Transaktionen</h1>
-        <ol class="transactions">
-            <li v-for="transaction in props.transactions">
-                <p v-if="transaction.sender === props.uuid" class="transaction-send">
+        <ol v-for="transaction in props.transactions" class="transactions">
+            <li>
+                <p v-if="String(transaction.sender) === String(props.uuid)" class="transaction-send">
                     {{ transaction.amount }} <img src="dollar.svg" /> gesendet am {{ transaction.createdAt }}
                 </p>
                 <p v-else class="transaction-received">
