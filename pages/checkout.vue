@@ -6,7 +6,10 @@ if (!ccodeCookie.value) await navigateTo('/checkout-login')
 const ccode = ccodeCookie.value
 const companyRequest = await useFetch(`http://localhost:3001/company/info/${ccode}`)
 
-if (!companyRequest || companyRequest.status.value === 'error') navigateTo('/login')
+if (!companyRequest || companyRequest.status.value === 'error') {
+  navigateTo('/checkout-login')
+  useCookie('ccode').value = null
+} 
 
 let companyName: string = (companyRequest.data.value as any).name
 
@@ -54,6 +57,11 @@ function removeProduct(targetIndex: number) {
   computeTotal()
 }
 
+function logout() {
+  ccodeCookie.value = null
+
+  navigateTo('/')
+}
 </script>
 
 <template>
@@ -97,7 +105,7 @@ function removeProduct(targetIndex: number) {
 			</button>
 		</div>
 	</div>
-	<button class="logout-button" >Ausloggen</button>
+	<button @click="logout" class="logout-button" >Ausloggen</button>
 </div>
 </template>
 

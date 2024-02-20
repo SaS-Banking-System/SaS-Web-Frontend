@@ -2,6 +2,8 @@
 let companyCode = ref<string>('')
 let wrongCompanyCode = ref<boolean>(false)
 
+if (useCookie('ccode') !== undefined) navigateTo('checkout')
+
 async function login() {
 	// trigger error animation
 	if (!String(companyCode.value).match(/^[0-9]{2,4}$/g)) {
