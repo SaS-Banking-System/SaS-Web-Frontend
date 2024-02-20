@@ -2,9 +2,10 @@
   <nav>
   <div class="mar">
     <div class="left">
-      <NuxtLink to="/" class="logo">Logo</NuxtLink>
-      <NuxtLink to="/faq" class="faq">FAQ</NuxtLink>
-      <NuxtLink to="/impressum" class="impressum">Impressum</Nuxtlink>
+      <NuxtLink to="/">Logo</NuxtLink>
+      <NuxtLink to="/faq">FAQ</NuxtLink>
+      <NuxtLink to="/impressum">Impressum</Nuxtlink>
+      <NuxtLink to="/checkout-login">Kasse</Nuxtlink>
     </div>
     <div class="right">
       <NuxtLink to="/login" class="loginLink">
