@@ -9,6 +9,11 @@
   if (!userRequest || userRequest.status.value === 'error') navigateTo('/login')
 
   const user = userRequest.data.value
+
+  import TransactionModal from '~/components/TransactionModal.vue'
+  import { ref } from 'vue'
+
+  const showModal = ref(false)   
 </script>
 
 <template>
@@ -26,6 +31,9 @@
                 </div>
                 <div>
                     <button class="buttontransaction">Neue Transaktion</button>
+                    <div class="modalWrapper">
+                        <TransactionModal :show="showModal" :sender="uuid" @close="showModal = false"></TransactionModal>
+                    </div>
                 </div>
             </div>
         </div>
