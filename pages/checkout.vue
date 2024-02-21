@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { QrcodeStream } from 'vue-qrcode-reader';
+
 const ccodeCookie = useCookie('ccode')
 
 if (!ccodeCookie.value) await navigateTo('/checkout-login')
@@ -20,8 +22,8 @@ interface Product {
 
 let products = ref<Product[]>([])
 let index: number = 0;
-let total = ref<number>();
-let priceInput = ref<string>();
+let total = ref<number>(0);
+let priceInput = ref<string>('');
 let priceInputElement = ref();
 
 function computeTotal() {
@@ -62,6 +64,55 @@ function logout() {
 
   navigateTo('/')
 }
+
+// Modal
+let modalOpen = ref<boolean>(false)
+let sanitizedUUID = ref<string>('')
+let uuid = ref<string>('')
+let isScanned = ref<boolean>(false)
+let transactionSuccess =  ref<boolean>(false)
+
+function handleModalClose() {
+	modalOpen.value = false;
+}
+
+function handleModalOpen() {
+	modalOpen.value = true;
+}
+
+function onDetect(detected: string) {
+	const code = (detected[0] as any).rawValue
+
+	sanitizedUUID.value = new Array(Math.floor(code.length / 2)).fill('*').join('') +
+										code.slice(Math.ceil(code.length / 2), code.length);
+
+	uuid.value = code;
+	isScanned.value = true;
+}
+
+function handleRescan() {
+	isScanned.value = false;
+	uuid.value = ''
+	sanitizedUUID.value = ''
+}
+
+async function handleTransaction() {
+	const transactionRequest = await useFetch('http://localhost:3001/transaction/company/new', {
+		method: 'post',
+		body: {
+			sender: uuid.value,
+			code: String(ccode),
+			amount: Number(total.value)
+		},
+	})
+
+	if (!transactionRequest || transactionRequest.status.value === 'error') { 
+		console.log('something went wrong')
+  	return
+  }
+
+	transactionSuccess.value = true;
+}
 </script>
 
 <template>
@@ -72,7 +123,13 @@ function logout() {
 			<div v-for="{value, productIndex} in products" class="product">
 				<p class="product-price">Preis: <strong>{{ value }}</strong> Rosen</p>
 				<button @click="removeProduct(productIndex)" class="product-remove-button" 
-					><PlusSvg color="red" :rotation="45" /> Produkt entfernen</button
+					>
+				<div class="product-remove-button-svg">
+					<PlusSvg color="red" :rotation="45" /> 
+				</div>	
+
+				<p class="product-remove-button-text">Produkt entfernen</p>	
+					</button
 				>
 			</div>
 	</div>
@@ -97,7 +154,7 @@ function logout() {
 			<h1 class="total-text">
 				INSGESAMT: <span class="total-text-value">{{ total }} Rosen</span>
 			</h1>
-			<button class="checkout-button" on:click={handleOpenCheckout}>
+			<button class="checkout-button" @click="handleModalOpen">
 				<div class="checkout-button-content">
 					  <ShoppingCartSvg />
 					<p class="checkout-button-text">Checkout</p>
@@ -107,9 +164,37 @@ function logout() {
 	</div>
 	<button @click="logout" class="logout-button" >Ausloggen</button>
 </div>
+
+<!-- Modal -->
+
+<div v-if="modalOpen" class="wrapper">
+	<div class="modal">
+		<button @click="handleModalClose" class="close-button">
+			<PlusSvg color="black" :rotation="45" />
+		</button>
+		<h1 class="company-name">{{ companyName }}</h1>
+		<div class="transaction-info-wrapper">
+			<p>Betrag: <span>{{ total }}</span></p>
+			<p>Empfänger: <span>{{ companyName }}</span></p>
+			<p>Von: <span >{{ sanitizedUUID }}</span></p>
+		</div>
+		<div v-if="isScanned">
+			<button :disabled="transactionSuccess" @click="handleRescan" 
+				>QrCode nochmal scannen</button
+			>
+			<button :disabled="transactionSuccess" @click="handleTransaction"
+				>Transaktion ausführen</button
+			>
+		</div>
+		<div v-if="!isScanned" class="reader-wrapper">
+      <qrcode-stream @detect="onDetect"></qrcode-stream>
+		</div>
+	</div>
+</div>
+
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 	:global(body) {
 		height: 100%;
 	}
@@ -202,14 +287,11 @@ function logout() {
 	.product-button-content {
 		display: flex;
 		flex-direction: row;
-		vertical-align: center;
-		height: 100%;
+		align-items: center;
 		padding: 7px;
 	}
 	.product-button-text {
 		font-size: 1.2rem;
-		display: flex;
-		flex-direction: column;
 		padding-inline: 5px;
 		color: white;
 	}
@@ -228,7 +310,6 @@ function logout() {
 		display: flex;
 		flex-direction: row;
 		vertical-align: center;
-		height: 100%;
 		padding: 7px;
 	}
 	.checkout-button-text {
@@ -253,5 +334,115 @@ function logout() {
 	}
 	.logout-button:hover {
 		background-color: #cc0000;
+	}
+
+	$clr-login-button: #2172f2;
+	.wrapper {
+		position: fixed;
+		display: block;
+		height: 100vh;
+		width: 100vw;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		backdrop-filter: brightness(60%);
+	}
+	.modal {
+		display: block;
+		position: fixed;
+		height: 90%;
+		width: 80%;
+		z-index: 9999;
+		background-color: white;
+		border: 3px solid gray;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 10px;
+		overflow: hidden;
+	}
+	.company-name {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		font-size: 2rem;
+		margin-top: 1rem;
+	}
+	.transaction-info-wrapper {
+		margin: 0rem 0rem 1rem 2rem;
+	}
+	.transaction-info-wrapper > p {
+		font-size: 2rem;
+		margin-top: 0.3rem;
+	}
+	.transaction-info-wrapper > p > span {
+		font-weight: bold;
+	}
+	.close-button {
+		all: unset;
+		position: absolute;
+		width: 3rem;
+		height: 3rem;
+		top: 0;
+		right: 0;
+		background: transparent;
+		margin: 1rem 1rem 0 0;
+		cursor: pointer;
+	}
+	.close-button:hover,
+	.close-button:focus {
+		outline: 2px solid black;
+		border-radius: 50%;
+	}
+	.reader-wrapper {
+		display: flex;
+		flex-direction: center;
+		justify-content: center;
+		margin-top: 2rem;
+		margin-left: 25%;
+		width: 50%;
+	}
+	#reader {
+		width: 50%;
+		aspect-ratio: 4 / 2;
+	}
+	button {
+		margin-left: 2rem;
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 1.25rem;
+		border: 5px solid $clr-login-button;
+		background-color: white;
+		color: $clr-login-button;
+		padding: 7px;
+		border-radius: 10px;
+		cursor: pointer;
+	}
+	.success-transaction {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	button:hover {
+		background-color: rgb(227, 225, 225);
+	}
+	button:disabled {
+		border: 5px solid lightgray;
+		color: lightgray;
+		background-color: white;
+		text-decoration: line-through;
+		font-style: italic;
+		cursor: default;
+	}
+	.failed-transaction {
+		text-align: center;
+		font-size: 1.2rem;
+		font-weight: bold;
+		color: red;
+	}
+	.product-remove-button-svg {
+		height: 100%;
+		display: flex;
 	}
 </style>

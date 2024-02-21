@@ -1,8 +1,5 @@
 <script setup lang="ts">
   const props = defineProps(['transactions', 'uuid'])
-
-  console.log(props.transactions)
-  console.log(props.uuid)
 </script>
 
 <template>
@@ -11,7 +8,7 @@
         <ol v-for="transaction in props.transactions" class="transactions">
             <li>
                 <p v-if="String(transaction.sender) === String(props.uuid)" class="transaction-send">
-                    {{ transaction.amount }} <img src="dollar.svg" /> gesendet am {{ transaction.createdAt }}
+                    {{ Number(transaction.amount) + Number(transaction.tax) }} <img src="dollar.svg" /> gesendet am {{ transaction.createdAt }}
                 </p>
                 <p v-else class="transaction-received">
                     {{ transaction.amount }} <img src="dollar.svg" /> bekommen am {{ transaction.createdAt }}
