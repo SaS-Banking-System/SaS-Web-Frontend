@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   pages: true,
   routeRules: {
-    '/personalDashboard': { ssr: true },
-    '/checkout': {ssr: true},
+    "/personalDashboard": { ssr: true },
+    "/checkout": { ssr: true },
   },
-})
+});
