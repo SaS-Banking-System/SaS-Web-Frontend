@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps(["show", "sender"]);
-const emit = defineEmits(['close'])
+const emit = defineEmits(["close"]);
 
 import { QrcodeStream } from "vue-qrcode-reader";
 
@@ -49,21 +49,20 @@ async function handleTransaction() {
   );
 
   if (!transactionRequest || transactionRequest.status.value === "error") {
-    console.log('something went wrong');
+    console.log("something went wrong");
     return;
   }
 
   notNumberError.value = false;
   transactionSuccess.value = true;
-  cancelMessage.value = "Fortfahren"
+  cancelMessage.value = "Fortfahren";
 }
 
 function handleClose() {
-    emit('close');
-    if(transactionSuccess)
-    {
-        location.reload();
-    }
+  emit("close");
+  if (transactionSuccess) {
+    location.reload();
+  }
 }
 </script>
 
@@ -90,9 +89,13 @@ function handleClose() {
           />
         </form>
         <p class="errorcode" v-if="notNumberError">Bitte eine Zahl eingeben.</p>
-        <p class="successcode" v-if="transactionSuccess">Transaktion erfolgreich!</p>
+        <p class="successcode" v-if="transactionSuccess">
+          Transaktion erfolgreich!
+        </p>
         <div class="transaction-info-footer">
-          <button class="cancel" @click="handleClose">{{ cancelMessage }}</button>
+          <button class="cancel" @click="handleClose">
+            {{ cancelMessage }}
+          </button>
           <button
             class="sendTransaction"
             @click="handleTransaction"
@@ -118,8 +121,8 @@ p {
 }
 
 .successcode {
-    color: rgb(48, 165, 83);
-    font-size: 1.2rem;
+  color: rgb(48, 165, 83);
+  font-size: 1.2rem;
 }
 
 .form {
