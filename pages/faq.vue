@@ -2,6 +2,7 @@
     <div class="wrapper">
         <Navbar />
         <h1>FAQ</h1>
+        <p>Viele Fragen</p>
     </div>
 </template>
 
@@ -9,10 +10,8 @@
 .wrapper {
     width: 100%;
     height: 100vh;
-    background-color: rgb(10,10,10);
 }
-
-h1 {
-    color: white;
+h1, p {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>

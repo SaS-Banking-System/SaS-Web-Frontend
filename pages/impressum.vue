@@ -2,7 +2,7 @@
     <div class="wrapper">
         <Navbar />
         <h1>Impressum</h1>
-        <p>Test</p>
+        <p>DEIN TEXT</p>
     </div>
 </template>
 
@@ -10,14 +10,8 @@
 .wrapper {
     width: 100%;
     height: 100vh;
-    background-color: rgb(10,10,10);
 }
-
-h1 {
-    color: white;
-}
-
-p {
-    color: white;
+h1, p {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>

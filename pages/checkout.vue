@@ -138,7 +138,7 @@ async function handleTransaction() {
 		<div class="utility-buttons">
 			<button @click="addProduct" class="product-button" 
 				><div class="product-button-content">
-					<PlusSvg />
+					<PlusSvg color="white" />
 					<p class="product-button-text">Preis Hinzufügen</p>
 				</div></button
 			>
