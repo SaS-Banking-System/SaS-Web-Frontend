@@ -72,11 +72,12 @@ function logout() {
 }
 
 // Modal
-let modalOpen = ref<boolean>(false);
-let sanitizedUUID = ref<string>("");
-let uuid = ref<string>("");
-let isScanned = ref<boolean>(false);
-let transactionSuccess = ref<boolean>(false);
+let modalOpen = ref<boolean>(false)
+let sanitizedUUID = ref<string>('')
+let uuid = ref<string>('')
+let isScanned = ref<boolean>(false)
+let transactionSuccess = ref<boolean>(false)
+let transactionError = ref<boolean>(false)
 
 function handleModalClose() {
   modalOpen.value = false;
@@ -104,24 +105,22 @@ function handleRescan() {
 }
 
 async function handleTransaction() {
-  const transactionRequest = await useFetch(
-    "http://localhost:3001/transaction/company/new",
-    {
-      method: "post",
-      body: {
-        sender: uuid.value,
-        code: String(ccode),
-        amount: Number(total.value),
-      },
-    },
-  );
-
-  if (!transactionRequest || transactionRequest.status.value === "error") {
-    console.log("something went wrong");
-    return;
+	const transactionRequest = await useFetch('http://localhost:3001/transaction/company/new', {
+		method: 'post',
+		body: {
+			sender: uuid.value,
+			code: String(ccode),
+			amount: Number(total.value)
+		},
+	})
+	
+	if (!transactionRequest || transactionRequest.status.value === 'error') { 
+		transactionError.value = true;
+  	return
   }
 
-  transactionSuccess.value = true;
+	transactionSuccess.value = true;
+	transactionError.value = false;
 }
 
 function newTransaction() {
@@ -184,39 +183,37 @@ function newTransaction() {
 
   <!-- Modal -->
 
-  <div v-if="modalOpen" class="wrapper">
-    <div class="modal">
-      <button @click="handleModalClose" class="close-button">
-        <PlusSvg color="black" :rotation="45" />
-      </button>
-      <h1 class="company-name">{{ companyName }}</h1>
-      <div class="transaction-info-wrapper">
-        <p>
-          Betrag: <span>{{ total }}</span>
-        </p>
-        <p>
-          Empfänger: <span>{{ companyName }}</span>
-        </p>
-        <p>
-          Von: <span>{{ sanitizedUUID }}</span>
-        </p>
-      </div>
-      <div v-if="isScanned">
-        <button :disabled="transactionSuccess" @click="handleRescan">
-          QrCode nochmal scannen
-        </button>
-        <button :disabled="transactionSuccess" @click="handleTransaction">
-          Transaktion ausführen
-        </button>
-      </div>
-      <div v-if="transactionSuccess">
-        <button @click="newTransaction">Neue Transaktion</button>
-      </div>
-      <div v-if="!isScanned" class="reader-wrapper">
-        <qrcode-stream @detect="onDetect"></qrcode-stream>
-      </div>
-    </div>
-  </div>
+<div v-if="modalOpen" class="wrapper">
+	<div class="modal">
+		<button @click="handleModalClose" class="close-button">
+			<PlusSvg color="black" :rotation="45" />
+		</button>
+		<h1 class="company-name">{{ companyName }}</h1>
+		<div class="transaction-info-wrapper">
+			<p>Betrag: <span>{{ total }}</span></p>
+			<p>Empfänger: <span>{{ companyName }}</span></p>
+			<p>Von: <span >{{ sanitizedUUID }}</span></p>
+		</div>
+		<div v-if="isScanned">
+			<button :disabled="transactionSuccess" @click="handleRescan" 
+				>QrCode nochmal scannen</button
+			>
+			<button :disabled="transactionSuccess" @click="handleTransaction"
+				>Transaktion ausführen</button
+			>
+		</div>
+		<div class="transaction-error-wrapper" v-if="transactionError">
+			<p class="transaction-error-text">Es ist ein Fehler aufgetreten! Falls es nochmeinmal Probleme gibt, rufen sie einen Administrator.</p>
+		</div>
+		<div v-if="transactionSuccess">
+			<button @click="newTransaction">Neue Transaktion</button>
+		</div>
+		<div v-if="!isScanned" class="reader-wrapper">
+      <qrcode-stream @detect="onDetect"></qrcode-stream>
+		</div>
+	</div>
+</div>
+
 </template>
 
 <style scoped lang="scss">
@@ -361,113 +358,120 @@ strong {
   background-color: #cc0000;
 }
 
-$clr-login-button: #2172f2;
-.wrapper {
-  position: fixed;
-  display: block;
-  height: 100vh;
-  width: 100vw;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  backdrop-filter: brightness(60%);
-}
-.modal {
-  display: block;
-  position: fixed;
-  height: 90%;
-  width: 80%;
-  z-index: 9999;
-  background-color: white;
-  border: 3px solid gray;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 10px;
-  overflow: hidden;
-}
-.company-name {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  font-size: 2rem;
-  margin-top: 1rem;
-}
-.transaction-info-wrapper {
-  margin: 0rem 0rem 1rem 2rem;
-}
-.transaction-info-wrapper > p {
-  font-size: 2rem;
-  margin-top: 0.3rem;
-}
-.transaction-info-wrapper > p > span {
-  font-weight: bold;
-}
-.close-button {
-  all: unset;
-  position: absolute;
-  width: 3rem;
-  height: 3rem;
-  top: 0;
-  right: 0;
-  background: transparent;
-  margin: 1rem 1rem 0 0;
-  cursor: pointer;
-}
-.close-button:hover,
-.close-button:focus {
-  outline: 2px solid black;
-  border-radius: 50%;
-}
-.reader-wrapper {
-  display: flex;
-  flex-direction: center;
-  justify-content: center;
-  margin-top: 2rem;
-  margin-left: 25%;
-  width: 50%;
-}
-#reader {
-  width: 50%;
-  aspect-ratio: 4 / 2;
-}
-button {
-  margin-left: 2rem;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.25rem;
-  border: 5px solid $clr-login-button;
-  background-color: white;
-  color: $clr-login-button;
-  padding: 7px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.success-transaction {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-button:hover {
-  background-color: rgb(227, 225, 225);
-}
-button:disabled {
-  border: 5px solid lightgray;
-  color: lightgray;
-  background-color: white;
-  text-decoration: line-through;
-  font-style: italic;
-  cursor: default;
-}
-.failed-transaction {
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: red;
-}
-.product-remove-button-svg {
-  height: 100%;
-  display: flex;
-}
+	$clr-login-button: #2172f2;
+	.wrapper {
+		position: fixed;
+		display: block;
+		height: 100vh;
+		width: 100vw;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		backdrop-filter: brightness(60%);
+	}
+	.modal {
+		display: block;
+		position: fixed;
+		height: 90%;
+		width: 80%;
+		z-index: 9999;
+		background-color: white;
+		border: 3px solid gray;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 10px;
+		overflow: hidden;
+	}
+	.company-name {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		font-size: 2rem;
+		margin-top: 1rem;
+	}
+	.transaction-info-wrapper {
+		margin: 0rem 0rem 1rem 2rem;
+	}
+	.transaction-info-wrapper > p {
+		font-size: 2rem;
+		margin-top: 0.3rem;
+	}
+	.transaction-info-wrapper > p > span {
+		font-weight: bold;
+	}
+	.close-button {
+		all: unset;
+		position: absolute;
+		width: 3rem;
+		height: 3rem;
+		top: 0;
+		right: 0;
+		background: transparent;
+		margin: 1rem 1rem 0 0;
+		cursor: pointer;
+	}
+	.close-button:hover,
+	.close-button:focus {
+		outline: 2px solid black;
+		border-radius: 50%;
+	}
+	.reader-wrapper {
+		display: flex;
+		flex-direction: center;
+		justify-content: center;
+		margin-top: 2rem;
+		margin-left: 25%;
+		width: 50%;
+	}
+	#reader {
+		width: 50%;
+		aspect-ratio: 4 / 2;
+	}
+	button {
+		margin-left: 2rem;
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 1.25rem;
+		border: 5px solid $clr-login-button;
+		background-color: white;
+		color: $clr-login-button;
+		padding: 7px;
+		border-radius: 10px;
+		cursor: pointer;
+	}
+	.success-transaction {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	button:hover {
+		background-color: rgb(227, 225, 225);
+	}
+	button:disabled {
+		border: 5px solid lightgray;
+		color: lightgray;
+		background-color: white;
+		text-decoration: line-through;
+		font-style: italic;
+		cursor: default;
+	}
+	.failed-transaction {
+		text-align: center;
+		font-size: 1.2rem;
+		font-weight: bold;
+		color: red;
+	}
+	.product-remove-button-svg {
+		height: 100%;
+		display: flex;
+	}
+	.transaction-error-text {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		color: red;	
+		font-size: 1.2rem;
+		font-weight: bold;
+		text-align: center;
+	}
 </style>

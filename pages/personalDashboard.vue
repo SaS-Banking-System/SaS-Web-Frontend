@@ -1,21 +1,16 @@
 <script setup>
-const uuidCookie = useCookie("uuid");
+  const uuidCookie = useCookie('uuid')
 
-if (!uuidCookie.value) await navigateTo("/login");
+  if (!uuidCookie.value) await navigateTo('/login')
 
-const uuid = uuidCookie.value;
-const userRequest = await useFetch(
-  `http://localhost:3001/account/info/${uuid}`,
-);
+  const uuid = uuidCookie.value
+  const userRequest = await useFetch(`http://localhost:3001/account/info/${uuid}`)
 
-if (!userRequest || userRequest.status.value === "error") navigateTo("/login");
+  if (!userRequest || userRequest.status.value === 'error') navigateTo('/login')
 
-const user = userRequest.data.value;
+  const user = userRequest.data.value
 
-import TransactionModal from "~/components/TransactionModal.vue";
-import { ref } from "vue";
-
-const showModal = ref(false);
+  const showModal = ref(false)   
 </script>
 
 <template>
