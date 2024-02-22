@@ -19,7 +19,7 @@ function onDetect(detected) {
 </script>
 
 <template>
-    <div v-if="show" class="wrapper">
+    <div v-if="props.show" class="wrapper">
         <div class="modal-container">
             <p>Neue Transaktion</p>
             <p>Absender: {{ sender }}</p>
