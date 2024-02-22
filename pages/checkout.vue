@@ -38,13 +38,15 @@ function computeTotal() {
 
 function addProduct() {
   if (!String(priceInput.value).match(/^[0-9]+$/)) {
-    priceInput.value = ''
+    priceInput.value = ""
     return;
   }
 
   products.value.push({ value: Number(priceInput.value), productIndex: index})
 
   index++;
+
+  priceInput.value = ''
 
   computeTotal()
 }
@@ -113,6 +115,10 @@ async function handleTransaction() {
 
 	transactionSuccess.value = true;
 }
+
+function newTransaction() {
+	location.reload()
+}
 </script>
 
 <template>
@@ -138,7 +144,7 @@ async function handleTransaction() {
 		<div class="utility-buttons">
 			<button @click="addProduct" class="product-button" 
 				><div class="product-button-content">
-					<PlusSvg />
+					<PlusSvg color="white" />
 					<p class="product-button-text">Preis Hinzufügen</p>
 				</div></button
 			>
@@ -185,6 +191,9 @@ async function handleTransaction() {
 			<button :disabled="transactionSuccess" @click="handleTransaction"
 				>Transaktion ausführen</button
 			>
+		</div>
+		<div v-if="transactionSuccess">
+			<button @click="newTransaction">Neue Transaktion</button>
 		</div>
 		<div v-if="!isScanned" class="reader-wrapper">
       <qrcode-stream @detect="onDetect"></qrcode-stream>

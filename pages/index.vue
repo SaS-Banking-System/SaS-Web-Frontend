@@ -9,7 +9,7 @@
                     <p>effizient</p>
                     <p>und einfach.</p>
                 </div>
-                <img class="kreditkarte" src="kreditkarte.png" alt="Credit Card">
+                <img class="kreditkarte" src="/kreditkarte.png" alt="Credit Card">
             </div>
         </div>
     </div>
