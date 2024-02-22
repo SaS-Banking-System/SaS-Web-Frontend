@@ -1,11 +1,16 @@
 <script setup lang="ts">
   const props = defineProps(['transactions', 'uuid'])
+  props.transactions.map((transaction: any) => {
+    if (String(transaction.sender) === String(props.uuid)) {
+        transaction.tax = 0
+    }
+  });
 </script>
 
 <template>
     <div class="wrapper">
         <h1>Transaktionen</h1>
-        <ol v-for="transaction in props.transactions.reverse()" class="transactions">
+        <ol v-for="transaction in props.transactions" class="transactions">
             <li>
                 <p v-if="String(transaction.sender) === String(props.uuid)" class="transaction-send">
                     {{ Number(transaction.amount) + Number(transaction.tax) }} <img src="/dollar.svg" /> gesendet am {{ transaction.createdAt }}
