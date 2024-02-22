@@ -56,7 +56,7 @@ img {
 .balance {
     margin-left: 2.5vw;
     margin-top: -2vh;
-    border-bottom: 4px dashed black;
+    border-bottom: 4px solid black;
     background-color: rgb(255, 255, 253);
     font-size: 3.5rem;
     font-weight: 400;
@@ -76,6 +76,7 @@ img {
     width: 100%;
     margin-top: 0.6vh;
     margin-left: 2vw;
+    margin-right: 2vw;
 }
 
 .buttontransaction {
@@ -84,10 +85,11 @@ img {
     white-space: nowrap;
 
     padding: 12px;
-    border-radius: 12px;
+    border: none;
+    border-radius: 5px;
 
     color: white;
-    background-color: rgb(68, 216, 142);
+    background-color: rgb(64, 197, 119);
     filter: drop-shadow(0px 0px 4px rgba(126, 126, 126, 0.8));
 
     font-weight: 500;
@@ -96,6 +98,7 @@ img {
 }
 
 .buttontransaction:hover {
+    background-color: rgb(52, 156, 95);
     cursor: pointer;
 }
 
@@ -119,7 +122,7 @@ h2 {
     padding: 4px;
     color: black;
     border-radius: 10px;
-    background-color: var(--dashboardHeaderColours);
+    background-color: rgb(198, 229, 247);
     white-space: nowrap;
     font-size: 2rem;
     font-weight: 400;

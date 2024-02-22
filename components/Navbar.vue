@@ -5,9 +5,9 @@
       <NuxtLink to="/">Logo</NuxtLink>
       <NuxtLink to="/faq">FAQ</NuxtLink>
       <NuxtLink to="/impressum">Impressum</Nuxtlink>
-      <NuxtLink to="/checkout-login">Kasse</Nuxtlink>
     </div>
     <div class="right">
+      <NuxtLink to="/checkout-login" class="checkout-login">Kasse</Nuxtlink>
       <NuxtLink to="/login" class="loginLink">
         <button class="loginButton">Mein Konto</button>
       </NuxtLink>
@@ -53,6 +53,24 @@
     transition: background-size 0.17s, color 0.17s;
     font-weight: 600;
     padding: 3px;
+  }
+  .right a {
+    margin-inline: 1.5rem;
+    font-weight: 600;
+    padding: 3px;
+  }
+
+  .checkout-login {
+    background-image: linear-gradient(rgb(240, 124, 230), rgb(240, 124, 230));
+    background-size: 0% 2px;
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.17s, color 0.17s;
+  }
+
+  .checkout-login:hover {
+    color: rgb(211, 100, 202);
+    background-size: 100% 2px;
   }
   .left a:hover {
     color: rgb(211, 100, 202);

@@ -50,7 +50,7 @@ p {
 
 h1 {
     border-radius: 10px;
-    background-color: var(--dashboardHeaderColours);
+    background-color: rgb(198, 229, 247);
     padding: 4px;
     color: black;
     font-size: 2rem;

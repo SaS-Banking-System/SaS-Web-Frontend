@@ -40,6 +40,10 @@ async function login() {
 <style scoped>
 	.wrapper {
 		position: absolute;
+		background-color: white;
+		filter: drop-shadow(0px 0px 7px rgb(201, 201, 201));
+		padding: 50px;
+		padding-top: 20px;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
@@ -50,33 +54,47 @@ async function login() {
 		animation-duration: 0.3s;
 	}
 	h1 {
-		font-size: 2rem;
-		margin-bottom: 2rem;
+		font-size: 2.6rem;
+		margin-bottom: 3rem;
 		text-align: center;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	}
+
 	input {
 		all: unset;
-		border: 1px solid gray;
-		border-radius: 3px;
+		border: 1px solid rgb(180, 180, 180);
+		border-radius: 5px;
 		padding: 10px;
-		font-size: 1.2rem;
+		font-size: 1.3rem;
+		outline: none;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	}
+
+	input:focus {
+		outline: 2px solid rgba(125, 169, 252, 0.747);
+	}
+
 	.login-button {
 		all: unset;
-		font-size: 1.2rem;
-		padding: 0.5rem;
+		font-size: 1.3rem;
 		margin-left: 1.1rem;
 		cursor: pointer;
-		background-color: #29e88c;
+		background-color: rgb(38, 189, 126);
 		color: white;
 		padding: 0.7rem;
 		border-radius: 5px;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	}
+
+	.login-button:hover {
+		background-color: rgb(52, 156, 95);
+	}
+
 	.index-page-button {
 		all: unset;
 		display: flex;
 		margin-top: 1.5rem;
-		font-size: 1.1rem;
+		font-size: 1.3rem;
 		font-weight: bold;
 		margin-inline: auto;
 		padding: 10px;
@@ -85,6 +103,7 @@ async function login() {
 		cursor: pointer;
 		background-color: white;
 		transition: all 0.3s ease-in-out;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	}
 	.index-page-button:hover {
 		background-color: #2172f2;
@@ -93,7 +112,7 @@ async function login() {
 	.index-page-a {
 		all: unset;
 		color: #2172f2;
-		transition: all 0.3s ease-in-out;
+		transition: all 0.1s ease-in-out;
 	}
 	.index-page-a:hover {
 		color: white;
