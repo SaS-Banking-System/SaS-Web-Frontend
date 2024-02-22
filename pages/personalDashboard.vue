@@ -30,7 +30,7 @@
                     <TransactionList :transactions="user.transactions" :uuid="uuid" />
                 </div>
                 <div>
-                    <button class="buttontransaction">Neue Transaktion</button>
+                    <button class="buttontransaction" @click="showModal = true">Neue Transaktion</button>
                     <div class="modalWrapper">
                         <TransactionModal :show="showModal" :sender="uuid" @close="showModal = false"></TransactionModal>
                     </div>
