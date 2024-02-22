@@ -72,7 +72,8 @@ let modalOpen = ref<boolean>(false)
 let sanitizedUUID = ref<string>('')
 let uuid = ref<string>('')
 let isScanned = ref<boolean>(false)
-let transactionSuccess =  ref<boolean>(false)
+let transactionSuccess = ref<boolean>(false)
+let transactionError = ref<boolean>(false)
 
 function handleModalClose() {
 	modalOpen.value = false;
@@ -107,13 +108,14 @@ async function handleTransaction() {
 			amount: Number(total.value)
 		},
 	})
-
+	
 	if (!transactionRequest || transactionRequest.status.value === 'error') { 
-		console.log('something went wrong')
+		transactionError.value = true;
   	return
   }
 
 	transactionSuccess.value = true;
+	transactionError.value = false;
 }
 
 function newTransaction() {
@@ -191,6 +193,9 @@ function newTransaction() {
 			<button :disabled="transactionSuccess" @click="handleTransaction"
 				>Transaktion ausführen</button
 			>
+		</div>
+		<div class="transaction-error-wrapper" v-if="transactionError">
+			<p class="transaction-error-text">Es ist ein Fehler aufgetreten! Falls es nochmeinmal Probleme gibt, rufen sie einen Administrator.</p>
 		</div>
 		<div v-if="transactionSuccess">
 			<button @click="newTransaction">Neue Transaktion</button>
@@ -453,5 +458,12 @@ function newTransaction() {
 	.product-remove-button-svg {
 		height: 100%;
 		display: flex;
+	}
+	.transaction-error-text {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		color: red;	
+		font-size: 1.2rem;
+		font-weight: bold;
+		text-align: center;
 	}
 </style>

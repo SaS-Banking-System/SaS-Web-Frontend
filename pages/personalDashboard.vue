@@ -10,9 +10,6 @@
 
   const user = userRequest.data.value
 
-  import TransactionModal from '~/components/TransactionModal.vue'
-  import { ref } from 'vue'
-
   const showModal = ref(false)   
 </script>
 
