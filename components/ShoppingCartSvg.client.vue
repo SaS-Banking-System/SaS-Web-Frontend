@@ -7,5 +7,6 @@
 <style scoped>
 svg {
   width: 2rem;
+  color: white;
 }
 </style>
