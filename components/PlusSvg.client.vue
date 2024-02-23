@@ -22,6 +22,6 @@ const props = defineProps(["rotation", "color"]);
 
 <style scoped>
 svg {
-  width: 2.4rem;
+  width: 3rem;
 }
 </style>

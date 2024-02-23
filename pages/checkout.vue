@@ -78,6 +78,8 @@ let uuid = ref<string>("");
 let isScanned = ref<boolean>(false);
 let transactionSuccess = ref<boolean>(false);
 let transactionError = ref<boolean>(false);
+let transactionLock = ref<boolean>(false);
+let buttonWrapperMargin = ref<string>("22rem");
 
 function handleModalClose() {
   modalOpen.value = false;
@@ -105,6 +107,11 @@ function handleRescan() {
 }
 
 async function handleTransaction() {
+  
+  if(transactionLock.value) return;
+
+  transactionLock.value = true;
+
   const transactionRequest = await useFetch(
     "http://localhost:3001/transaction/company/new",
     {
@@ -117,11 +124,15 @@ async function handleTransaction() {
     },
   );
 
+  transactionLock.value = false;
+
   if (!transactionRequest || transactionRequest.status.value === "error") {
     transactionError.value = true;
+    buttonWrapperMargin.value = "17.6rem";
     return;
   }
 
+  buttonWrapperMargin.value = "17.8rem";
   transactionSuccess.value = true;
   transactionError.value = false;
 }
@@ -133,7 +144,6 @@ function newTransaction() {
 
 <template>
   <h1 class="company-name">{{ companyName }}</h1>
-
   <div class="checkout-wrapper">
     <div class="product-list">
       <div v-for="{ value, productIndex } in products" class="product">
@@ -158,11 +168,11 @@ function newTransaction() {
         <button @click="addProduct" class="product-button">
           <div class="product-button-content">
             <PlusSvg color="white" />
-            <p class="product-button-text">Preis Hinzufügen</p>
+            <p class="product-button-text">Preis hinzufügen</p>
           </div>
         </button>
         <input
-          placeholder="Preis eingeben"
+          placeholder="Preis eingeben..."
           class="price-input"
           type="number"
           v-model="priceInput"
@@ -171,7 +181,7 @@ function newTransaction() {
       </div>
       <div class="checkout-utility-wrapper">
         <h1 class="total-text">
-          INSGESAMT: <span class="total-text-value">{{ total }} Rosen</span>
+          INSGESAMT: <span class="total-text-value">{{ total }} Rosen </span>
         </h1>
         <button class="checkout-button" @click="handleModalOpen">
           <div class="checkout-button-content">
@@ -191,7 +201,7 @@ function newTransaction() {
         <button @click="handleModalClose" class="close-button">
           <PlusSvg color="black" :rotation="45" />
         </button>
-        <h1 class="company-name">{{ companyName }}</h1>
+        <h1 class="company-name-modal">{{ companyName }}</h1>
         <div class="transaction-info-wrapper">
           <p>
             Betrag: <span>{{ total }}</span>
@@ -203,22 +213,23 @@ function newTransaction() {
             Von: <span>{{ sanitizedUUID }}</span>
           </p>
         </div>
-        <div v-if="isScanned">
-          <button :disabled="transactionSuccess" @click="handleRescan">
-            QrCode nochmal scannen
+        <div class="transaction-error-wrapper" v-if="transactionError">
+          <p class="transaction-error-text">
+            Es ist ein Fehler aufgetreten! Falls es noch einmal Probleme gibt,
+            rufen sie einen Administrator.
+          </p>
+        </div>
+        <div v-if="isScanned" class="modal-button-wrapper" :style="{ marginTop: buttonWrapperMargin }">
+          <button :disabled="transactionSuccess" @click="handleRescan" class="modal-button-rescan">
+            QR-Code erneut scannen
           </button>
           <button :disabled="transactionSuccess" @click="handleTransaction">
             Transaktion ausführen
           </button>
         </div>
-        <div class="transaction-error-wrapper" v-if="transactionError">
-          <p class="transaction-error-text">
-            Es ist ein Fehler aufgetreten! Falls es nochmeinmal Probleme gibt,
-            rufen sie einen Administrator.
-          </p>
-        </div>
         <div v-if="transactionSuccess">
-          <button @click="newTransaction">Neue Transaktion</button>
+          <p class="transaction-success-message">Transaktion erfolgreich!</p>
+          <button class="button-new-transaction" @click="newTransaction">Neue Transaktion</button>
         </div>
         <div v-if="!isScanned" class="reader-wrapper">
           <qrcode-stream @detect="onDetect"></qrcode-stream>
@@ -253,7 +264,7 @@ function newTransaction() {
 }
 .total-text {
   margin-block: auto;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -262,6 +273,7 @@ function newTransaction() {
   font-weight: bold;
   margin-inline: 0.6rem;
   margin-block: auto;
+  border-bottom: solid 3px black;
 }
 .utility-buttons {
   display: flex;
@@ -269,7 +281,8 @@ function newTransaction() {
 }
 .price-input {
   all: unset;
-  border: 1px solid gray;
+  background-color: white;
+  border: 1px solid rgb(180, 180, 180);
   display: flex;
   flex-direction: column;
   border-radius: 7px;
@@ -278,7 +291,8 @@ function newTransaction() {
   font-size: 1.2rem;
 }
 .price-input:focus {
-  outline: 2px solid gray;
+  outline: 2px solid rgba(125, 169, 252, 0.747);
+  filter: drop-shadow(0px 0px 3px rgb(125, 169, 252, 0.747));
 }
 .checkout-utility-wrapper {
   display: flex;
@@ -301,6 +315,7 @@ function newTransaction() {
 .product-remove-button {
   font-size: 1.1rem;
   border: 4px solid rgb(224, 2, 2);
+  background-color: white;
   display: flex;
   flex-direction: row;
 }
@@ -389,36 +404,38 @@ strong {
   transition: all 0.2s;
 }
 
-$clr-login-button: #2172f2;
+$clr-login-button: rgb(64, 197, 119);
 .wrapper {
   position: fixed;
   display: block;
   height: 100vh;
   width: 100vw;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0%;
+  left: 0%;
   backdrop-filter: brightness(60%);
+  transition: opacity 0.3s ease;
 }
 .modal {
   display: block;
   position: fixed;
-  height: 90%;
-  width: 80%;
+  height: 80%;
+  width: 70%;
   z-index: 9999;
   background-color: white;
-  border: 3px solid gray;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 10%;
+  left: 15%;
   border-radius: 10px;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
-.company-name {
+.company-name-modal {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: 700;
+  text-decoration: underline;
+  color: rgb(48, 165, 83);
   margin-top: 1rem;
 }
 .transaction-info-wrapper {
@@ -438,12 +455,13 @@ $clr-login-button: #2172f2;
   height: 3rem;
   top: 0;
   right: 0;
-  background: transparent;
+  background-color: white;
   margin: 1rem 1rem 0 0;
   cursor: pointer;
 }
 .close-button:hover,
 .close-button:focus {
+  background-color: rgb(240, 240, 240);
   outline: 2px solid black;
   border-radius: 50%;
 }
@@ -460,14 +478,13 @@ $clr-login-button: #2172f2;
   aspect-ratio: 4 / 2;
 }
 button {
+  all: unset;
   margin-left: 2rem;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.25rem;
-  border: 5px solid $clr-login-button;
-  background-color: white;
-  color: $clr-login-button;
-  padding: 7px;
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: white;
+  background-color: $clr-login-button;
+  padding: 12px;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -478,21 +495,28 @@ button {
   align-items: center;
 }
 button:hover {
-  background-color: rgb(227, 225, 225);
+  background-color: rgb(52, 156, 95);
 }
 button:disabled {
-  border: 5px solid lightgray;
-  color: lightgray;
-  background-color: white;
-  text-decoration: line-through;
-  font-style: italic;
-  cursor: default;
+  display: none;
 }
+.modal-button-rescan {
+  margin-right: 2rem;
+  float: right;
+}
+
 .failed-transaction {
   text-align: center;
   font-size: 1.2rem;
   font-weight: bold;
   color: red;
+}
+.transaction-success-message {
+  margin-left: 2rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: rgb(52, 156, 95);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 .product-remove-button-svg {
   height: 100%;
@@ -500,9 +524,23 @@ button:disabled {
 }
 .transaction-error-text {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: red;
-  font-size: 1.2rem;
+  color: rgb(221, 0, 0);
+  font-size: 1.8rem;
   font-weight: bold;
   text-align: center;
+}
+
+.modal-transition-enter-from {
+  opacity: 0;
+}
+
+.modal-transition-leave-to {
+  opacity: 0;
+}
+
+.modal-transition-enter-from .modal,
+.modal-transition-leave-to .modal {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 </style>
