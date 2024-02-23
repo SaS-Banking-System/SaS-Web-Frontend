@@ -1,10 +1,5 @@
 <script setup lang="ts">
 const props = defineProps(["transactions", "uuid"]);
-props.transactions.map((transaction: any) => {
-  if (String(transaction.sender) === String(props.uuid)) {
-    transaction.tax = 0;
-  }
-});
 </script>
 
 <template>
